@@ -27,8 +27,14 @@ const Input = styled.input`
   width: -webkit-fill-available;
 `;
 const ArtistSelectBlock = styled.div``;
-const SelectWrap = styled.div``;
-const SelectBox = styled.div``;
+const SelectWrap = styled.div`
+  display: flex;
+  width: 100%;
+`;
+const SelectBox = styled.div`
+  width: 80%;
+  border: 1px solid #ccc;
+`;
 const AddBtn = styled.button`
   padding: 6px 10px;
   font-size: 14px;
@@ -40,6 +46,18 @@ const AddBtn = styled.button`
   color: white;
   cursor: pointer;
   outline: none;
+  width: 20%;
+  margin-left: 32px;
+  &.submit-btn {
+    margin-left: 0px;
+    margin-top: 32px;
+  }
+`;
+const Heading = styled.h1`
+  font-size: 32px;
+  line-height: 40px;
+  color: #000;
+  text-transform: uppercase;
 `;
 
 export {
@@ -52,4 +70,5 @@ export {
   SelectWrap,
   SelectBox,
   AddBtn,
+  Heading,
 };

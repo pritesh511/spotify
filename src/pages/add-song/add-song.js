@@ -3,6 +3,7 @@ import {
   AddSongContainer,
   AddSongForm,
   ArtistSelectBlock,
+  Heading,
   Input,
   InputBlock,
   Label,
@@ -11,12 +12,16 @@ import {
 } from "./styles";
 import React, { useState } from "react";
 import { Modal } from "baseui/modal";
+import { Select, TYPE } from "baseui/select";
+import AddArtistModal from "../../components/addartistmodal/addartistmodal";
 
 const AddSong = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = React.useState([]);
   return (
     <>
       <AddSongContainer>
+        <Heading>Add Artist</Heading>
         <AddSongForm>
           <InputBlock>
             <Label>Song Name</Label>
@@ -37,7 +42,26 @@ const AddSong = () => {
           <ArtistSelectBlock>
             <Label>Select Artist</Label>
             <SelectWrap>
-              <SelectBox></SelectBox>
+              <SelectBox>
+                <Select
+                  options={[
+                    { id: "AliceBlue", color: "#F0F8FF" },
+                    { id: "AntiqueWhite", color: "#FAEBD7" },
+                    { id: "Aqua", color: "#00FFFF" },
+                    { id: "Aquamarine", color: "#7FFFD4" },
+                    { id: "Azure", color: "#F0FFFF" },
+                    { id: "Beige", color: "#F5F5DC" },
+                  ]}
+                  labelKey="id"
+                  valueKey="color"
+                  placeholder="Choose a color"
+                  maxDropdownHeight="300px"
+                  type={TYPE.search}
+                  multi
+                  onChange={({ value }) => setValue(value)}
+                  value={value}
+                />
+              </SelectBox>
               <AddBtn
                 type="button"
                 onClick={() => {
@@ -48,10 +72,19 @@ const AddSong = () => {
               </AddBtn>
             </SelectWrap>
           </ArtistSelectBlock>
+          <AddBtn
+            className="submit-btn"
+            type="button"
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            Save
+          </AddBtn>
         </AddSongForm>
       </AddSongContainer>
       <Modal onClose={() => setIsOpen(false)} closeable isOpen={isOpen}>
-        <div>haadiadgiag</div>
+        <AddArtistModal onClose={() => setIsOpen(false)} />
       </Modal>
     </>
   );
