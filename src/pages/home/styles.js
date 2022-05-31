@@ -43,7 +43,31 @@ const Th = styled.th`
 `;
 const Tr = styled.tr``;
 const Td = styled.td`
+  padding: 12px;
   text-align: center;
+  border: 1px solid;
+`;
+const ArtistImage = styled.div`
+  img {
+    width: 100%;
+    height: auto;
+  }
+`;
+const StartList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const StartItem = styled.li`
+  height: 30px;
+  width: 30px;
+  img {
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 export {
@@ -57,4 +81,7 @@ export {
   Th,
   Tr,
   Td,
+  ArtistImage,
+  StartList,
+  StartItem,
 };

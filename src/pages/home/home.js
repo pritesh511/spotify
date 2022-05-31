@@ -9,14 +9,27 @@ import {
   DataBody,
   Tr,
   Td,
+  ArtistImage,
+  StartList,
+  StartItem,
 } from "./styles";
+import img1 from "../../assets/images/ar-img-1.jpg";
+import starIcon from "../../assets/images/star.png";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Container>
         <TopButton>
-          <PrimaryButton>Add Song</PrimaryButton>
+          <PrimaryButton
+            onClick={() => {
+              navigate("/add-song");
+            }}
+          >
+            Add Song
+          </PrimaryButton>
         </TopButton>
         <TopTitle>Top 10 Songs</TopTitle>
         <DataTable>
@@ -30,22 +43,72 @@ const Home = () => {
           <DataBody>
             <Tr>
               <Td>
-                <img
-                  src={"../../assets/images/ar-img-1.jpg"}
-                  alt="ar-img-1"
-                ></img>
+                <ArtistImage>
+                  <img src={img1} alt="ar-img-1"></img>
+                </ArtistImage>
               </Td>
-              <Td>name</Td>
-              <Td>name</Td>
-              <Td>name</Td>
-              <Td>name</Td>
+              <Td>Tere Bin jina</Td>
+              <Td>12 may, 2020</Td>
+              <Td>Arijit Sing</Td>
+              <Td>
+                <StartList>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                </StartList>
+              </Td>
             </Tr>
             <Tr>
-              <Td>name</Td>
-              <Td>name</Td>
-              <Td>name</Td>
-              <Td>name</Td>
-              <Td>name</Td>
+              <Td>
+                <ArtistImage>
+                  <img src={img1} alt="ar-img-1"></img>
+                </ArtistImage>
+              </Td>
+              <Td>Tere Bin jina</Td>
+              <Td>12 may, 2020</Td>
+              <Td>Arijit Sing</Td>
+              <Td>
+                <StartList>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                </StartList>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <ArtistImage>
+                  <img src={img1} alt="ar-img-1"></img>
+                </ArtistImage>
+              </Td>
+              <Td>Tere Bin jina</Td>
+              <Td>12 may, 2020</Td>
+              <Td>Arijit Sing</Td>
+              <Td>
+                <StartList>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                  <StartItem>
+                    <img src={starIcon} alt="ar-img-1"></img>
+                  </StartItem>
+                </StartList>
+              </Td>
             </Tr>
           </DataBody>
         </DataTable>
