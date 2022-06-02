@@ -1,48 +1,71 @@
-const express = require("express");
 const mongoose = require("mongoose");
-
+const express = require("express");
+const bodyParser = require("body-parser");
+var cors = require("cors");
 const app = express();
-
-app.use(express.json());
-
-const URL = "mongodb://localhost:27017/spotify"
-
-mongoose.connect(URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .then(() => console.log("Database connected"))
-    .catch(err => console.log("hello", err));
-
+// const router = express.Router();
 const PORT = 4000;
 
-app.listen(PORT, () => {
-    console.log("server running on port " + PORT);
-});
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(cors());
 
+// const URL = "mongodb://localhost:27017/spotify";
+const URL = "mongodb+srv://pritesh511:pritesh123@spotify0.lrvun2y.mongodb.net/?retryWrites=true&w=majority";
+
+mongoose
+  .connect(URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  })
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.log("hello", err));
+
+app.listen(PORT, () => {
+  console.log("server running on port " + PORT);
+});
 
 var songSchema = new mongoose.Schema({
-    name: String,
-    dor: String
+  name: String,
+  dor: String,
+  img: String,
 });
 
-var songModel = mongoose.model('songfrhkg', songSchema);
-
-console.log("gtrf1");
-app.get('/', (req, res) => {
-    console.log("gtrf2");
-
-
-
-    const instance = new songModel();
-    instance.name = 'mako';
-    instance.dor = 'not found';
-    instance.save(function (err) {
-        console.log(err);
-    });
-
-    const songData = songModel.find({}, (x, y) => {
-        return res.send(String(y));
-    });
-
+var artistSchema = new mongoose.Schema({
+  name: String,
+  dob: String,
+  bio: String,
 });
+
+var songModel = mongoose.model("song", songSchema);
+var artistModel = mongoose.model("artist", artistSchema);
+
+app.post("/song", (req, res) => {
+  const { songName, releaseDate, songImage } = req.body;
+  let song = new songModel({
+    name: songName,
+    dor: releaseDate,
+    img: songImage,
+  });
+  song.save();
+});
+
+app.post("/artist", (req, res) => {
+  const { name, dob, bio } = req.body;
+  let artist = new artistModel({
+    name: name,
+    dob: dob,
+    bio: bio,
+  });
+  artist.save();
+});
+
+app.get("/song", (req, res) => {
+  const data = songModel.find({}, function (err, songs) {
+    if (err) console.error(err);
+    else console.log(songs);
+  });
+  return res.send(data);
+});
+
+
