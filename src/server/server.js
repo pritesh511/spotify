@@ -10,7 +10,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
-const URL = "mongodb://localhost:27017/spotify";
+// const URL = "mongodb://localhost:27017/spotify";
+const URL =
+  "mongodb+srv://pritesh511:pritesh123@spotify0.lrvun2y.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
   .connect(URL, {
@@ -59,8 +61,30 @@ app.post("/artist", (req, res) => {
   artist.save();
 });
 
-// const data = songModel.toString();
+app.get("/song", (req, res) => {
+  const data = songModel.find({}, function (err, songs) {
+    if (err) console.error(err);
+    else console.log(songs);
+  });
+  return res.send(data);
+});
 
-// app.get("/song", (req, res) => {
-//   res.send("sahdiahi");
-// });
+app.post("/song", (req, res) => {
+  const { songName, releaseDate, songImage } = req.body;
+  let song = new songModel({
+    name: songName,
+    dor: releaseDate,
+    img: songImage,
+  });
+  song.save();
+});
+
+app.post("/artist", (req, res) => {
+  const { name, dob, bio } = req.body;
+  let artist = new artistModel({
+    name: name,
+    dob: dob,
+    bio: bio,
+  });
+  artist.save();
+});

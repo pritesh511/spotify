@@ -10,7 +10,7 @@ import {
   SelectBox,
   SelectWrap,
 } from "./styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "baseui/modal";
 import { Select, TYPE } from "baseui/select";
 import AddArtistModal from "../../components/addartistmodal/addartistmodal";
@@ -33,7 +33,7 @@ const AddSong = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { songName, releaseDate, songImage } = songData;
-    await fetch("http://localhost:4000/song", {
+    await fetch("/song", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -48,6 +48,18 @@ const AddSong = () => {
       }),
     }).then(() => alert("You have been added to the system!"));
   };
+
+  useEffect(async () => {
+    await fetch("/song", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "*",
+        crossdomain: true,
+      },
+    }).then((res) => console.log(res));
+  });
 
   return (
     <>
