@@ -30,6 +30,7 @@ var songSchema = new mongoose.Schema({
   name: String,
   dor: String,
   img: String,
+  artists: [Object],
 });
 
 var artistSchema = new mongoose.Schema({
@@ -42,11 +43,13 @@ var songModel = mongoose.model("song", songSchema);
 var artistModel = mongoose.model("artist", artistSchema);
 
 app.post("/song", (req, res) => {
-  const { songName, releaseDate, songImage } = req.body;
+  const { songName, releaseDate, songImage, artistArray } = req.body;
+  console.log("artistArray", artistArray);
   let song = new songModel({
     name: songName,
     dor: releaseDate,
     img: songImage,
+    artists: artistArray,
   });
   song.save();
 });
@@ -61,30 +64,28 @@ app.post("/artist", (req, res) => {
   artist.save();
 });
 
-app.get("/song", (req, res) => {
-  const data = songModel.find({}, function (err, songs) {
-    if (err) console.error(err);
-    else console.log(songs);
+app.get("/song", function (req, res) {
+  songModel.find({}, function (err, response) {
+    if (err) {
+      console.log(err);
+      return res.send("error");
+    }
+
+    if (!err && response) {
+      res.send(response);
+    }
   });
-  return res.send(data);
 });
 
-app.post("/song", (req, res) => {
-  const { songName, releaseDate, songImage } = req.body;
-  let song = new songModel({
-    name: songName,
-    dor: releaseDate,
-    img: songImage,
-  });
-  song.save();
-});
+app.get("/artist", function (req, res) {
+  artistModel.find({}, function (err, response) {
+    if (err) {
+      console.log(err);
+      return res.send("error");
+    }
 
-app.post("/artist", (req, res) => {
-  const { name, dob, bio } = req.body;
-  let artist = new artistModel({
-    name: name,
-    dob: dob,
-    bio: bio,
+    if (!err && response) {
+      res.send(response);
+    }
   });
-  artist.save();
 });

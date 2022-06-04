@@ -10,7 +10,7 @@ import {
   SelectBox,
   SelectWrap,
 } from "./styles";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "baseui/modal";
 import { Select, TYPE } from "baseui/select";
 import AddArtistModal from "../../components/addartistmodal/addartistmodal";
@@ -23,16 +23,18 @@ export const songData = {
 
 const AddSong = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState([]);
+  // const [value, setValue] = useState([]);
+  const [artistData, setArtistData] = useState([]);
   const [songData, setSongData] = useState({
     songName: "",
     releaseDate: new Date(),
     songImage: "",
+    artistArray: [],
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { songName, releaseDate, songImage } = songData;
+    const { songName, releaseDate, songImage, artistArray } = songData;
     await fetch("/song", {
       method: "POST",
       headers: {
@@ -45,21 +47,28 @@ const AddSong = () => {
         songName,
         releaseDate,
         songImage,
+        artistArray,
       }),
     }).then(() => alert("You have been added to the system!"));
   };
 
-  useEffect(async () => {
-    await fetch("/song", {
+  const fetchData = async () => {
+    await fetch("/artist", {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Headers": "*",
-        crossdomain: true,
       },
-    }).then((res) => console.log(res));
-  });
+    })
+      .then((response) => response.json())
+      .then((actualData) => setArtistData(actualData))
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -123,22 +132,21 @@ const AddSong = () => {
             <SelectWrap>
               <SelectBox>
                 <Select
-                  options={[
-                    { id: "AliceBlue", color: "#F0F8FF" },
-                    { id: "AntiqueWhite", color: "#FAEBD7" },
-                    { id: "Aqua", color: "#00FFFF" },
-                    { id: "Aquamarine", color: "#7FFFD4" },
-                    { id: "Azure", color: "#F0FFFF" },
-                    { id: "Beige", color: "#F5F5DC" },
-                  ]}
-                  labelKey="id"
-                  valueKey="color"
+                  options={artistData}
+                  labelKey="name"
+                  valueKey="name"
                   placeholder="Choose a color"
                   maxDropdownHeight="300px"
                   type={TYPE.search}
                   multi
-                  onChange={({ value }) => setValue(value)}
-                  value={value}
+                  onChange={({ value }) => {
+                    console.log("value", value);
+                    setSongData({
+                      ...songData,
+                      artistArray: value,
+                    });
+                  }}
+                  value={songData?.artistArray}
                 />
               </SelectBox>
               <AddBtn

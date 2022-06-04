@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   PrimaryButton,
   TopButton,
@@ -19,6 +20,51 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [songData, setSongData] = useState([]);
+  const [artistData, setArtistData] = useState([]);
+  // const [artistImage, setArtistImage] = useState([]);
+  const fetchData = async () => {
+    await fetch("/song", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => setSongData(actualData))
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  const fetchArtisData = async () => {
+    await fetch("/artist", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((actualData) => setArtistData(actualData))
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
+  console.log("songData", songData);
+
+  useEffect(() => {
+    fetchData();
+    fetchArtisData();
+  }, []);
+
+  const handleArtistName = (artistName) => {
+    console.log("artistname", artistName);
+    return artistName.map((item, index) => {
+      return <span>{item?.name}, </span>;
+    });
+  };
+
   return (
     <>
       <Container>
@@ -41,75 +87,55 @@ const Home = () => {
             <Th>Rate</Th>
           </DataThead>
           <DataBody>
-            <Tr>
-              <Td>
-                <ArtistImage>
-                  <img src={img1} alt="ar-img-1"></img>
-                </ArtistImage>
-              </Td>
-              <Td>Tere Bin jina</Td>
-              <Td>12 may, 2020</Td>
-              <Td>Arijit Sing</Td>
-              <Td>
-                <StartList>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                </StartList>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <ArtistImage>
-                  <img src={img1} alt="ar-img-1"></img>
-                </ArtistImage>
-              </Td>
-              <Td>Tere Bin jina</Td>
-              <Td>12 may, 2020</Td>
-              <Td>Arijit Sing</Td>
-              <Td>
-                <StartList>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                </StartList>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <ArtistImage>
-                  <img src={img1} alt="ar-img-1"></img>
-                </ArtistImage>
-              </Td>
-              <Td>Tere Bin jina</Td>
-              <Td>12 may, 2020</Td>
-              <Td>Arijit Sing</Td>
-              <Td>
-                <StartList>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                  <StartItem>
-                    <img src={starIcon} alt="ar-img-1"></img>
-                  </StartItem>
-                </StartList>
-              </Td>
-            </Tr>
+            {songData?.map((item, index) => {
+              return (
+                <>
+                  <Tr key={index}>
+                    <Td>
+                      <ArtistImage>
+                        <img src={img1} alt="ar-img-1"></img>
+                      </ArtistImage>
+                    </Td>
+                    <Td>{item?.name}</Td>
+                    <Td>{item?.dor}</Td>
+                    <Td>{handleArtistName(item?.artists)}</Td>
+                    <Td>
+                      <StartList>
+                        <StartItem>
+                          <img src={starIcon} alt="ar-img-1"></img>
+                        </StartItem>
+                        <StartItem>
+                          <img src={starIcon} alt="ar-img-1"></img>
+                        </StartItem>
+                        <StartItem>
+                          <img src={starIcon} alt="ar-img-1"></img>
+                        </StartItem>
+                      </StartList>
+                    </Td>
+                  </Tr>
+                </>
+              );
+            })}
+          </DataBody>
+        </DataTable>
+        <DataTable>
+          <DataThead>
+            <Th>Artist Name</Th>
+            <Th>DOB</Th>
+            <Th>Bio</Th>
+          </DataThead>
+          <DataBody>
+            {artistData?.map((item, index) => {
+              return (
+                <>
+                  <Tr key={index}>
+                    <Td>{item?.name}</Td>
+                    <Td>{item?.dob}</Td>
+                    <Td>{item?.bio}</Td>
+                  </Tr>
+                </>
+              );
+            })}
           </DataBody>
         </DataTable>
       </Container>

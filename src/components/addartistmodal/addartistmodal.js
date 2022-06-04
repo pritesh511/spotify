@@ -30,6 +30,7 @@ const AddArtistModal = ({ onClose }) => {
       }),
     }).then(() => alert("You have been added to the system!"));
   };
+
   return (
     <>
       <ArtistForm
@@ -48,6 +49,7 @@ const AddArtistModal = ({ onClose }) => {
             type="text"
             placeholder="Artist Name"
             value={artist?.name}
+            required={true}
             onChange={(e) => {
               setArtist({
                 ...artist,
@@ -61,6 +63,7 @@ const AddArtistModal = ({ onClose }) => {
           <Input
             type="date"
             placeholder="Add Song Name"
+            required={true}
             value={artist?.dob}
             onChange={(e) => {
               setArtist({
@@ -75,6 +78,7 @@ const AddArtistModal = ({ onClose }) => {
           <TextArea
             type="text"
             placeholder="Add Song Name"
+            required={true}
             value={artist?.bio}
             onChange={(e) => {
               setArtist({
@@ -85,9 +89,9 @@ const AddArtistModal = ({ onClose }) => {
           />
         </ArtInputBlock>
         <AddBtn
-          // onClick={() => {
-          //   onClose();
-          // }}
+          onClick={() => {
+            onClose();
+          }}
           type="submit"
         >
           Add Artist
