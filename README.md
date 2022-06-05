@@ -1,3 +1,17 @@
+TO Run node js server change path to server file:
+
+1. cd src
+2. cd server
+3. node server.js
+
+only data uploded and fetch part only done.
+
+Data base use: mongodb
+
+backend browser run on http://localhost:4000
+
+reload the page after add artist.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

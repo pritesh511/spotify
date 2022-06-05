@@ -74,10 +74,10 @@ const AddArtistModal = ({ onClose }) => {
           />
         </ArtInputBlock>
         <ArtInputBlock>
-          <Label>Artist Name</Label>
+          <Label>Bio</Label>
           <TextArea
             type="text"
-            placeholder="Add Song Name"
+            placeholder="Add Bio"
             required={true}
             value={artist?.bio}
             onChange={(e) => {
